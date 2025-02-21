@@ -1,0 +1,273 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    overflow-x: hidden;
+    background-color: #f8f9fa;
+    overflow-y: hidden;
+}
+
+/* Navbar */
+.navbar {
+    z-index: 1050;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding-left: 1%;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+}
+
+.dropdown-menu{
+    background-color: #292d31;
+}
+.dropdown-menu :hover{
+    background-color: #15191c;
+    color: #e6e6e6; 
+}
+.dropdown-item{
+  color: #d1d1d1;
+}
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: #212529;
+    color: white;
+    padding-top: 7%;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid #212529;
+}
+
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.75);
+    display: flex;
+    align-items: center;
+    margin-left: 3%;
+    margin-top: 20px;
+}
+
+.sidebar .nav-link:hover {
+    color: white;
+    background: rgba(255,255,255,0.1);
+}
+
+.sidebar .nav-item i {
+    margin-right: 10px;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background: #2d3238;
+    text-align: left;
+    padding-left: 10%;
+    font-size: 0.9rem;
+}
+.fa-gear{
+    margin-left: 110px;
+    color: #d1d1d172;
+}
+.fa-gear :hover{
+    color: #d1d1d1;
+}
+/* Contenido */
+.content {
+    margin-left: 240px;
+    padding: 75px 15px 20px;
+    width: calc(100% - 250px);
+    background-color: #212529ed;
+    height: 780px;
+    color: white;
+    display: flex;
+}
+
+.Chats {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+/* Estilos de la Sub-sidebar */
+
+.sub-sidebar  {
+    width: 250px;
+    height: 100vh;
+    background-color: #212529ed;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.profile-icon {
+    width: 65px;
+    height: 60px;
+    background-color: #0a9396;
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.team-name {
+    flex-grow: 1;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.more-options {
+    cursor: pointer;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.menu li:hover {
+    background-color: #d1d1d175;
+}
+
+hr {
+    border: 0.5px solid #292929;
+    margin: 10px 0;
+}
+
+.channels {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.channels ul {
+    list-style: none;
+    padding: 0;
+}
+
+.channels li {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.channels li:hover {
+    background-color:#d1d1d175;
+}
+
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; 
+    width: 100%;
+}
+
+.chat-messages {
+    flex: 1; 
+    overflow-y: auto;
+    padding: 10px;
+    padding-left: 50px;
+  
+}
+
+.message-input {
+    position: absolute;
+    bottom: 0;
+    width:68.5%; 
+    background-color: #40444b;
+    padding: 10px;
+    border-top: 1px solid #424549;
+    display: flex;
+    align-items: center;
+}
+
+.channel-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #0a9396;
+    border-bottom: 1px solid #424549;
+    padding-left: 50px;
+} 
+
+.icons i {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+
+
+.message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message-content {
+    background-color: #40444b;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.message-input input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: white;
+    padding: 5px;
+    outline: none;
+}
+
+.input-icons i {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+
+.message-input button {
+    margin-left: 10px;
+    background-color: #0a9396;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}

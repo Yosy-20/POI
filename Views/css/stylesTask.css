@@ -1,0 +1,138 @@
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    overflow-x: hidden;
+    background-color: #f8f9fa;
+}
+
+/* Navbar */
+.navbar {
+    z-index: 1050;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    padding-left: 1%;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+}
+
+.dropdown-menu{
+    background-color: #292d31;
+}
+.dropdown-menu :hover{
+    background-color: #15191c;
+    color: #e6e6e6; 
+}
+.dropdown-item{
+  color: #d1d1d1;
+}
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: #212529;
+    color: white;
+    padding-top: 7%;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid #212529;
+}
+
+.sidebar .nav-link {
+    color: rgba(255,255,255,0.75);
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+    margin-top: 20px;
+}
+
+.sidebar .nav-link:hover {
+    color: white;
+    background: rgba(255,255,255,0.1);
+}
+
+.sidebar .nav-item i {
+    margin-right: 10px;
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background: #2d3238;
+    text-align: left;
+    padding-left: 10%;
+    font-size: 0.9rem;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 80px 20px 20px;
+    width: calc(100% - 250px);
+    background-color: #212529ed;
+    min-height: 100vh;
+}
+
+.sub-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.sub-navbar h3 {
+    margin: 0;
+    color: #d1d1d1;
+}
+.task-container {
+    max-width: 1250px;
+    margin: auto;
+  
+}
+.tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    color: #d1d1d1;
+}
+.tab {
+    padding: 10px 15px;
+    background-color: #21252954;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.tab.active {
+    background-color: #d1d1d170;
+}
+.task {
+    background-color: #212529;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+.task:hover{
+    transform: scale(1.04);
+}
+.task-title {
+    font-size: 18px;
+    font-weight: bold;
+    color:#0a9396;
+}
+.task-info {
+    font-size: 14px;
+    color: #aaa;
+}
+.fa-gear{
+    margin-left: 110px;
+    color: #d1d1d172;
+}
+.fa-gear :hover{
+    color: #d1d1d1;
+}
