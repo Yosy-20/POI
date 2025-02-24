@@ -70,6 +70,14 @@ body {
     font-size: 0.9rem;
 }
 
+.fa-gear{
+    margin-left: 110px;
+    color: #d1d1d172;
+}
+.fa-gear :hover{
+    color: #d1d1d1;
+}
+
 /*MI CODIGOOOOOOOOOOO*/
 
 /* adaptacion a dispositivos */
