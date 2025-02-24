@@ -1,12 +1,12 @@
 const tasks = {
     proximamente: [
-        { title: "Análisis de aproximaciones de neuromarketing", info: "Vence el 10:00 | 053 E2025 Mercadotecnia | CLASE ORDINARIA", points: "8 puntos" }
+        { title: "Tarea 3", info: "Vence el 10:00 | Equipo 1 ", points: "8 puntos" }
     ],
     vencida: [
-        { title: "Entrega de reporte de ventas", info: "Venció el 15 feb | 053 E2025 Mercadotecnia", points: "10 puntos" }
+        { title: "Tarea 2", info: "Venció el 15 feb | Equipo 1", points: "10 puntos" }
     ],
     completada: [
-        { title: "Exposición de caso de estudio", info: "Completado el 10 feb | 053 E2025 Mercadotecnia", points: "5 puntos" }
+        { title: "Tarea 1", info: "Completado el 10 feb |Equipo 1", points: "5 puntos" }
     ]
 };
 
