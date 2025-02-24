@@ -76,6 +76,13 @@ body {
     padding: 10px 20px;
     margin-bottom: 20px;
 }
+.fa-gear{
+    margin-left: 110px;
+    color: #d1d1d172;
+}
+.fa-gear :hover{
+    color: #d1d1d1;
+}
 .contenido {
     margin-left: 250px;
     padding: 80px 20px 20px;
