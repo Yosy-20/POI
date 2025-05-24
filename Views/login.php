@@ -17,7 +17,7 @@
         <label for="password">Contraseña</label>
         <input type="password" id="password" name="password" required>
 
-        <a href="register.html">Registrarse</a>
+        <a href="register.php">Registrarse</a>
         <br>
 
         <input type="submit" class="btn-1" value="Iniciar Sesión">

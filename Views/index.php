@@ -54,7 +54,7 @@ if (empty($_SESSION['username'])) {
             <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fas fa-calendar"></i> Calendario</a></li>
             <li class="nav-item"><a class="nav-link" href="Reward.html"><i class="fas fa-gift"></i> Recompensas</a></li>
         </ul>
-        <div class="sidebar-footer">Sesión Iniciada: <br> <strong> <i class="fas fa-user fa-fw"></i> <?=$_SESSION['username'] ?></strong>  <a href="Perfil.html"> <i class="fas fa-gear" ></i></a></div>
+        <div class="sidebar-footer">Sesión Iniciada: <br> <strong> <i class="fas fa-user fa-fw"></i> <?=$_SESSION['username']  ?></strong>  <a href="Perfil.html"> <i class="fas fa-gear" ></i></a></div>
     </div>
     <div class="content">
         <nav class="sub-navbar">
@@ -120,28 +120,29 @@ if (empty($_SESSION['username'])) {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body">
-          <form id="crearEquipoForm">
+          <form id="crearEquipoForm" action="../Controllers/registroEquipo.php?" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
               <label for="nombreEquipo" class="form-label">Nombre del Equipo</label>
-              <input type="text" class="form-control" id="nombreEquipo" placeholder="Ej. Desarrollo Web" required>
+              <input type="text" class="form-control" id="nombreEquipo" name="nombreEquipo" placeholder="Ej. Desarrollo Web" required>
             </div>
             <div class="mb-3">
               <label for="descripcionEquipo" class="form-label">Descripción</label>
-              <textarea class="form-control" id="descripcionEquipo" rows="3" placeholder="Breve descripción del equipo"></textarea>
+              <textarea class="form-control" id="descripcionEquipo" name="descripcionEquipo" rows="3" placeholder="Breve descripción del equipo"></textarea>
             </div>
             <div class="mb-3">
               <label for="codigoEquipo" class="form-label">Código de Identificación</label>
-              <input type="text" class="form-control" id="codigoEquipo" placeholder="Ej. 053 A2024" required>
+              <input type="text" class="form-control" id="codigoEquipo" name="codigoEquipo" placeholder="Ej. 053 A2024" required>
             </div>
             <div class="mb-3">
               <label for="colorEquipo" class="form-label">Color del Equipo</label>
-              <input type="color" class="form-control form-control-color" id="colorEquipo" value="#17a2b8">
+              <input type="color" class="form-control form-control-color" id="colorEquipo" name="colorEquipo" value="#17a2b8">
             </div>
             <div class="mb-3">
               <label for="usuariosEquipo" class="form-label">Agregar Usuarios</label>
-              <input type="text" class="form-control" id="usuarioInput" placeholder="Escribe un nombre y presiona Enter">
+              <input type="text" class="form-control" id="usuarioInput" name="usuarioInput" placeholder="Escribe un nombre y presiona Enter">
               <div id="usuariosLista" class="mt-2"></div>
             </div>
+            <input type="hidden" id="usuariosEquipoInput" name="usuariosEquipo">
             <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Equipo</button>
           </form>
         </div>
@@ -150,6 +151,7 @@ if (empty($_SESSION['username'])) {
   </div>
   
     <script src="js/script.js"></script>
+    <script src="js/scriptEq.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

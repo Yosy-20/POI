@@ -35,7 +35,7 @@ class UsuarioController {
     $stmt->bind_param("ssss", $usuario, $correo, $contrasena, $foto);
 
     if ($stmt->execute()) {
-        header("Location:../Views/ completarPerfil.php");
+        header("Location:../Views/login.php");
         return "Registro exitoso";
         
     } else {
@@ -108,5 +108,11 @@ public function CompletarInformacion($username, $nombre, $apellidoP, $apellidoM,
     }
 }
 
+public function logout() {
+            session_unset();
+            session_destroy();
+             header("Location: ../Views/index.php");
+        }
+       
 }
 ?>
