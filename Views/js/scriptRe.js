@@ -1,22 +1,25 @@
-function previewImage(event) {
-    const image = document.getElementById('image-preview');
-    const file = event.target.files[0];
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            image.src = e.target.result;
-            image.style.display = 'block';
-            image.style.width = '150px';
-            image.style.height = '150px';
-            image.style.borderRadius = '50%'; 
+document.getElementById('file').addEventListener('change', function (event) {
+    console.log('Evento de cambio de archivo detectado');
+    if (event.target.files && event.target.files[0]) {
+        var file = event.target.files[0];
+        var fileName = file.name;
+        var input = document.getElementById('imagen');
+        input.value = fileName;
+        console.log('Nombre del archivo:', fileName);
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById('image-preview').src = e.target.result;
+            document.getElementById('image-preview').style.display = 'block';
+            console.log('Imagen cargada:', e.target.result);
+        };  
+        reader.onerror = function (e) {
+            console.error('Error al leer el archivo:', e.target.error);
         };
         reader.readAsDataURL(file);
     } else {
-        image.style.display = 'none';
+        alert('No se seleccionó ningún archivo.');
     }
-}
-
+});
 
 document.getElementById('registro').addEventListener('submit', function(event) {
     event.preventDefault();

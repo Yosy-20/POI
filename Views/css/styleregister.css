@@ -1,0 +1,104 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     background-color: #212529 ;
+    background-size: cover;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #253131;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 0 20px #0a9496;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+.subtitle a {
+    color: #4baeff;
+    text-decoration: none;
+}
+
+.form-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+
+.form-group input {
+    flex: 1;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #3a3f4a;
+    color: white;
+    font-size: 14px;
+}
+select{
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.buttons .change {
+    background-color: #6c6f7e;
+    color: white;
+}
+
+.buttons .create {
+    background-color: #184b4b;
+    color: white;
+}
+
+.buttons button:hover {
+    opacity: 0.9;
+}
+
