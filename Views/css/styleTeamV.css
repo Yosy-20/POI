@@ -270,3 +270,10 @@ hr {
 .top-icons i:hover {
     opacity: 1;
 }
+a{
+    text-decoration: none; 
+    color: inherit;
+}
+a:hover{
+    color: inherit;
+}
