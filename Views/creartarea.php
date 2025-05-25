@@ -1,3 +1,43 @@
+<?php
+require('../Controllers/conexion.php');
+include("../Controllers/equipoController.php");
+// Verificar si la sesión ya está iniciada
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+  session_regenerate_id(true); // Protege contra fijación de sesión
+}
+
+// Validar si el usuario está autenticado
+if (empty($_SESSION['username'])) {
+  header("Location: login.php");
+  exit;
+}
+
+
+if (!isset($_GET['id'])) {
+    die("No se especificó el equipo.");
+}
+
+$idEquipo = intval($_GET['id']);
+$equipoController = new equipoController($conexion);
+$equipo = $equipoController->obtenerEquipoPorId($idEquipo);
+
+if (!$equipo) {
+    die("Equipo no encontrado.");
+}
+
+function obtenerIniciales($nombre) {
+    $palabras = explode(' ', $nombre);
+    $iniciales = '';
+    foreach ($palabras as $palabra) {
+        $iniciales .= strtoupper($palabra[0]);
+    }
+    return $iniciales;
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +64,7 @@
                         <li><a class="dropdown-item" href="#">Configuración</a></li>
                         <li><a class="dropdown-item" href="#">Actividad</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+                        <li><a class="dropdown-item" href="../Controllers/cerrarSesion.php">Cerrar Sesión</a></li>
                     </ul>
                 </li>
             </ul>
@@ -37,43 +77,46 @@
             <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fas fa-calendar"></i> Calendario</a></li>
             <li class="nav-item"><a class="nav-link" href="Reward.html"><i class="fas fa-gift"></i> Recompensas</a></li>
         </ul>
-        <div class="sidebar-footer">Sesión Iniciada: <br> <strong><i class="fas fa-user fa-fw"></i> Usuario</strong>  <a href="Perfil.php"> <i class="fas fa-gear" ></i></a></div>
+        <div class="sidebar-footer">Sesión Iniciada: <br> <strong> <i class="fas fa-user fa-fw"></i> <?=$_SESSION['username']  ?></strong>  <a href="Perfil.php"> <i class="fas fa-gear" ></i></a></div>
     </div>
      <div class="content">
         <div class="Chats">
             <!-- Sub-sidebar: Lista de Chats -->
             <div class="sub-sidebar">
                 <div class="profile">
-                    <div class="profile-icon">E1</div>
-                    <span class="team-name">Equipo1</span>
-                    <i class="fas fa-ellipsis-v more-options"></i>
+                <div class="profile-icon" style="background-color: <?= htmlspecialchars($equipo['color']) ?>">
+                    <?= obtenerIniciales($equipo['nombre']) ?>
+                 </div>
+                <span class="team-name"><?= htmlspecialchars($equipo['nombre']) ?></span>
+                <i class="fas fa-ellipsis-v more-options"></i>
                 </div>
                 
                 <ul class="menu">
-                    <li><i class="fas fa-tasks"></i> Tareas</li>
+                <a href="teamT.php?id=<?= $equipo['id'] ?>"><li><i class="fas fa-tasks"></i> Tareas</li></a>
                 </ul>
                 <hr>
                 <div class="channels">
-                    <span><i class="fa-solid fa-thumbtack"></i>  Canales de texto</span>
+                    <span><i class="fa-solid fa-thumbtack"></i> Canales de texto</span>
                     <ul>
-                        <li><i class="fas fa-comments"></i> General</li>
+                    <a href="team.php?id=<?= $equipo['id'] ?>"><li><i class="fas fa-comments"></i> General</li></a>
                     </ul>
-                    
-                    <span><i class="fa-solid fa-thumbtack"></i>  Canales de voz</span>
+
+                    <span><i class="fa-solid fa-thumbtack"></i> Canales de voz</span>
                     <ul>
-                        <li> <i class="fa-solid fa-bullhorn"></i> General</li>
+                    <a href="teamV.php?id=<?= $equipo['id'] ?>"><li> <i class="fa-solid fa-bullhorn"></i> General</li></a>
                     </ul>
                 </div>
             </div>
         </div>
 
         <div class="Task">
-            <form>
+            <form action="../Controllers/registroTarea.php?id=<?= $equipo['id'] ?>" method="POST" enctype="multipart/form-data">
                 <h2 >Nueva Tarea</h2>
                 <input class="form-cd" placeholder="Titulo" id="titutlotarea" name="titutlotarea">
                 <textarea class="form-cd" placeholder="Descripcion" id="descriptarea" name="descriptarea"></textarea>
-                <input type="file" name="file" id="file" class="form-cd">
                 <label for="file" class="form-cd"><i class="fa fa-paperclip"></i></i>  Adjuntar</label>
+                <input type="file" name="files[]" id="file" class="form-cd" multiple>
+                
 
                 <input class="form-inline" type="date" id="fechtarea" name="fechtarea">
                 <input class="form-inline" type="time" id="horatarea" name="horatarea">

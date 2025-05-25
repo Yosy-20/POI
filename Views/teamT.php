@@ -74,7 +74,7 @@ function obtenerIniciales($nombre) {
 
     <div class="sidebar">
         <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-users"></i> Equipos</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.php"><i class="fas fa-users"></i> Equipos</a></li>
             <li class="nav-item"><a class="nav-link" href="task.html"><i class="fas fa-tasks"></i> Tareas</a></li>
             <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fas fa-calendar"></i> Calendario</a></li>
             <li class="nav-item"><a class="nav-link" href="Reward.html"><i class="fas fa-gift"></i> Recompensas</a></li>
@@ -114,6 +114,9 @@ function obtenerIniciales($nombre) {
         <nav class="sub-navbar">
             <h3 >Tareas</h3>
             <div class="tabs">
+                <a href="../Views/creartarea.php?id=<?= $equipo['id'] ?>"> <button class="btn btn-primary" style="background-color: <?= htmlspecialchars($equipo['color']) ?>">
+                <i class="fas fa-plus"></i> Crear Grupo
+                </button></a>
                 <div class="tab active" onclick="changeTab('proximamente')">Próximamente</div>
                 <div class="tab" onclick="changeTab('vencida')">Vencida</div>
                 <div class="tab" onclick="changeTab('completada')">Completada</div>
