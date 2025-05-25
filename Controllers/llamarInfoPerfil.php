@@ -7,7 +7,7 @@ include("conexion.php");
 
 function obtenerPerfilUsuario($conexion, $id_usuario) {
     // Consulta para obtener los datos del usuario por ID
-    $sql = "SELECT nombre, usuario, apellidoP, apellidoM, correo, descripcion, foto FROM usuario WHERE Id = ?";
+    $sql = "SELECT nombre, usuario, apellidoP, apellidoM, correo, descripcion, Foto FROM usuario WHERE Id = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $id_usuario);
     $stmt->execute();
