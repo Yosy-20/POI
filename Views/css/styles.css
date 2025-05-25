@@ -122,8 +122,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 160px;
-    position: relative;
-    border-left: 5px solid #0a9396;
+    position: relative;   
 }
 
 .card-icon {

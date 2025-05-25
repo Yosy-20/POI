@@ -13,6 +13,17 @@ if (empty($_SESSION['username'])) {
   exit;
 }
 ?>
+ <?php
+// Función para obtener iniciales del nombre
+function obtenerIniciales($nombre) {
+    $palabras = explode(' ', $nombre);
+    $iniciales = '';
+    foreach ($palabras as $p) {
+        $iniciales .= mb_strtoupper(mb_substr($p, 0, 1));
+    }
+    return $iniciales;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -40,7 +51,7 @@ if (empty($_SESSION['username'])) {
                         <li><a class="dropdown-item" href="#">Configuración</a></li>
                         <li><a class="dropdown-item" href="#">Actividad</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+                        <li><a class="dropdown-item" href="../Controllers/cerrarSesion.php">Cerrar Sesión</a></li>
                     </ul>
                 </li>
             </ul>
@@ -64,51 +75,41 @@ if (empty($_SESSION['username'])) {
               </button>
               
         </nav>
-        <div class="row g-3">
+        <?php
+include("../Controllers/equipoController.php");
+
+$equipoController = new equipoController($conexion);
+$idUsuario = $_SESSION['idusuario'];
+
+$equipos = $equipoController->mostrarEquiposPorUsuario($idUsuario);
+?>
+
+<div class="row g-3">
+    <?php if (!empty($equipos)): ?>
+        <?php foreach ($equipos as $equipo): ?>
             <div class="col-md-4">
-                <div class="custom-card">
-                    <div class="card-icon">E1</div>
+                <div class="custom-card" style="border-left: 5px solid <?= htmlspecialchars($equipo['color']) ?>; " >
+
+
+<div class="card-icon" style="background-color: <?= htmlspecialchars($equipo['color']) ?>; ">
+    <?= obtenerIniciales($equipo['nombre']) ?>
+</div>
                     <div class="card-body">
-                        <h5 class="card-title">Equipo 1</h5>
-                        <p class="card-text">Descripcion del equipo </p>
+                        <h5 class="card-title"><?= htmlspecialchars($equipo['nombre']) ?></h5>
+                        <p class="card-text"><?= htmlspecialchars($equipo['descripcion']) ?></p>
                     </div>
                     <div class="card-actions">
                         <i class="fa-solid fa-comments"></i>
                         <i class="fa-solid fa-tasks"></i>
-                       <a class="nav-link" href="team.html"> <i class="fa-solid fa-pen"></i></a> 
+                        <a class="nav-link" href="team.php?id=<?= $equipo['id'] ?>"> <i class="fa-solid fa-pen"></i></a> 
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="custom-card">
-                    <div class="card-icon">E2</div>
-                    <div class="card-body">
-                        <h5 class="card-title">Equipo2</h5>
-                        <p class="card-text">Descripcion del equipo</p>
-                    </div>
-                    <div class="card-actions">
-                        <i class="fa-solid fa-comments"></i>
-                        <i class="fa-solid fa-tasks"></i>
-                        <a class="nav-link" href="team.html"> <i class="fa-solid fa-pen"></i></a> 
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="custom-card">
-                    <div class="card-icon">E3</div>
-                    <div class="card-body">
-                        <h5 class="card-title">Equipo 3</h5>
-                        <p class="card-text">Descripcion del equipo</p>
-                    </div>
-                    <div class="card-actions">
-                        <i class="fa-solid fa-comments"></i>
-                        <i class="fa-solid fa-tasks"></i>
-                        <a class="nav-link" href="team.html"> <i class="fa-solid fa-pen"></i></a> 
-                    </div>
-                </div>
-            </div>
-            
-        </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p style="color: white;">No hay equipos registrados.</p>
+    <?php endif; ?>
+</div>
     </div>
     
 <!-- Modal para crear equipo -->

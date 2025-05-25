@@ -52,4 +52,68 @@ class equipoController{
 
     }
 
+
+     public function mostrarEquipos() {
+        $equipos = [];
+
+        $sql = "SELECT id, nombre, descripcion, codigo, color FROM equipo WHERE estatus = 1";
+        $result = $this->conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $equipos[] = $row;
+            }
+        }
+
+        return $equipos; // Devuelve un array de equipos
+    }
+
+    public function mostrarEquiposPorUsuario($idUsuario) {
+    $equipos = [];
+
+    $sql = "
+        SELECT DISTINCT e.id, e.nombre, e.descripcion, e.codigo, e.color 
+        FROM equipo e
+        LEFT JOIN usuarioequipo ue ON e.id = ue.idequipo
+        WHERE e.estatus = 1
+          AND (e.id_usuario = ? OR ue.idusuario = ?)
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    if (!$stmt) {
+        die("Error en la preparación del query: " . $this->conn->error);
+    }
+
+    $stmt->bind_param("ii", $idUsuario, $idUsuario);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $equipos[] = $row;
+        }
+    }
+
+    $stmt->close();
+
+    return $equipos;
+}
+public function obtenerEquipoPorId($idEquipo) {
+    $sql = "SELECT id, nombre, descripcion, codigo, color FROM equipo WHERE id = ? AND estatus = 1";
+    $stmt = $this->conn->prepare($sql);
+    if (!$stmt) {
+        die("Error al preparar query: " . $this->conn->error);
+    }
+
+    $stmt->bind_param("i", $idEquipo);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $equipo = $result->fetch_assoc();
+
+    $stmt->close();
+
+    return $equipo;
+}
+
 }
