@@ -75,7 +75,7 @@ if ($usuario) {
                 <div class="perfil-usuario-portada">
                     <div class="perfil-usuario-avatar">
                         <!-- Imagen de perfil -->
-                        <img src="imagenes/<?php echo htmlspecialchars($usuario['foto']); ?>" alt="Avatar de Usuario">
+                        <img src="http://localhost/POI/<?php echo htmlspecialchars($usuario['Foto']); ?>" alt="Avatar de Usuario">
                         <button type="button" class="boton-avatar">
                             <i class="far fa-image"></i>
                         </button>
