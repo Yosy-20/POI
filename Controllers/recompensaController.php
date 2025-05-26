@@ -9,10 +9,18 @@ class RecompensaController{
         $this->conn = $conexion;
     }
 
-    public function obtenerRecompensas() {
-    $stmt = $this->conn->prepare("SELECT archivo, nivel FROM recompensa ORDER BY nivel ASC");
+    public function obtenerRecompensas($idusuario) {
+     $stmt = $this->conn->prepare("
+        SELECT r.id, r.archivo, r.nivel 
+        FROM recompensas_usuario ru
+        JOIN recompensa r ON ru.idrecompensa = r.id
+        WHERE ru.idusuario = ?
+        ORDER BY r.nivel ASC
+    ");
+    $stmt->bind_param("i", $idusuario);
     $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function recompensasPorUsuario($idusuario) {

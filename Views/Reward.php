@@ -99,6 +99,11 @@ function nombreNivel($nivel) {
             <div class="reward">
             <img src="data:image/png;base64,<?= base64_encode($r['archivo']) ?>" alt="Recompensa">
             <p><?= nombreNivel($r['nivel']) ?></p>
+            <form action="../Controllers/actualizarMarco.php" method="post">
+            <input type="hidden" name="idusuario" value="<?= $idUsuario ?>">
+            <input type="hidden" name="idrecompensa" value="<?= $r['id'] ?>">
+            <button type="submit" class="btn">Usar</button>
+            </form>
             </div>
             <?php endforeach; ?>
         </div>

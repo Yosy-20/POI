@@ -11,16 +11,35 @@ if (!isset($_SESSION['idusuario'])) {
 
 // Incluir el archivo de funciones que contiene la función obtenerPerfilUsuario
 require_once '../Controllers/llamarInfoPerfil.php';
+require('../Controllers/conexion.php');
+include("../Controllers/recompensaController.php");
+
 
 // Obtener el ID del usuario desde la sesión
 $id_usuario = $_SESSION['idusuario'];
 
 // Llamar a la función para obtener los datos del usuario
 $usuario = obtenerPerfilUsuario($conexion, $id_usuario);
+$reconController = new RecompensaController($conexion);
+$recompensas = $reconController->obtenerRecompensas($id_usuario);
+
+function nombreNivel($nivel) {
+    switch ($nivel) {
+        case 1: return "buen comienzo";
+        case 2: return "sigue asi";
+        case 3: return "poquito mas";
+        case 4: return "rey de tareas";
+        case 5: return "GRANDE";
+        case 6: return "master de tareas";
+        default: return "DESCONOCIDO";
+    }
+}
+
 
 if ($usuario) {
+
     // Mostrar los datos del usuario en el perfil
-    ?>
+?>
     <!DOCTYPE html>
     <html lang="es">
     <head>
@@ -68,14 +87,32 @@ if ($usuario) {
                 <a href="perfil.php"><i class="fas fa-gear"></i></a>
             </div>
         </div>
-
-        <!-- Sección del perfil del usuario -->
-        <section class="seccion-perfil-usuario">
+         <div class="cont">
+            <section class="seccion-perfil-usuario">
+           
             <div class="perfil-usuario-header">
+                <?php 
+                            $idmarco = $usuario['idmarco'];
+                            $marco = null;
+
+                            if ($idmarco) {
+                            $stmt = $conexion->prepare("SELECT archivo FROM recompensa WHERE id = ?");
+                                $stmt->bind_param("i", $idmarco);
+                                $stmt->execute();
+                                $res = $stmt->get_result();
+                                $marco = $res->fetch_assoc();
+                            }
+                            ?>
                 <div class="perfil-usuario-portada">
                     <div class="perfil-usuario-avatar">
                         <!-- Imagen de perfil -->
-                        <img src="http://localhost/POI/<?php echo htmlspecialchars($usuario['Foto']); ?>" alt="Avatar de Usuario">
+                         
+                        <div class="marco-recompensa">
+                        <?php if ($marco): ?>
+                        <img src="data:image/png;base64,<?= base64_encode($marco['archivo']) ?>" class="marco-img" id="imgr">
+                        <?php endif; ?>
+                        <img src="http://localhost/POI/<?= htmlspecialchars($usuario['Foto']) ?>" alt="Avatar de Usuario" class="avatar-principal">
+                        </div>
                         <button type="button" class="boton-avatar">
                             <i class="far fa-image"></i>
                         </button>
@@ -100,8 +137,20 @@ if ($usuario) {
                         <li><i class="icono fas fa-user-tag"></i> Nivel de usuario: Usuario</li>
                     </ul>
                 </div>
+                <div class="Recompensas">
+                            <?php foreach ($recompensas as $r): ?>
+                                <div class="reward">
+                                <img src="data:image/png;base64,<?= base64_encode($r['archivo']) ?>" alt="Recompensa">
+                                <p><?= nombreNivel($r['nivel']) ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                    
+                </div>
             </div>
-        </section>
+            
+        </section></div>
+        <!-- Sección del perfil del usuario -->
+        
 
         <!-- Scripts necesarios para el funcionamiento de Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

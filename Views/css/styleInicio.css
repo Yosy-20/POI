@@ -78,7 +78,15 @@ body {
     color: #d1d1d1;
 }
 
+.cont{
 
+    margin-left: 250px;
+    padding: 80px 20px 20px;
+    width: calc(100% - 250px);
+    background-color: #212529ed;
+    height: 1000px;
+
+}
 /*MI CODIGOOOOOOOOOOO*/
 
 /* adaptacion a dispositivos */
@@ -221,7 +229,8 @@ body {
 
 /*Cuadros, no mover*/
 .seccion-perfil-usuario .perfil-usuario-footer,
-.seccion-perfil-usuario .perfil-usuario-bio {
+.seccion-perfil-usuario .perfil-usuario-bio,
+.seccion-perfil-usuario .Recompensas {
     display: flex;
     flex-wrap: wrap;
     padding: 1.5rem 2rem;
@@ -240,6 +249,7 @@ body {
 .seccion-perfil-usuario .lista-datos {
     width: 50%;
     list-style: none;
+    
 }
 
 .seccion-perfil-usuario .lista-datos li {
@@ -252,8 +262,33 @@ body {
     vertical-align: middle;
 }
 
-.seccion-perfil-usuario{
-
-        width: calc(100% - 250px);
-
+.Recompensas{
+    margin-top: 1.25rem;
 }
+ #imgr{
+    width: 180%;
+    height: 180%;
+    position: absolute;
+    top: -52;
+    left: -65;
+    border-radius: 50%;
+}
+
+
+.reward{
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    padding: 15px;
+    margin-right: 10px;
+    background-color: #121b1b;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+}
+
+.reward img{
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
