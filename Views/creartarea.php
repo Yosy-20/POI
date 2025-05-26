@@ -110,7 +110,7 @@ function obtenerIniciales($nombre) {
         </div>
 
         <div class="Task">
-            <form action="../Controllers/registroTarea.php?id=<?= $equipo['id'] ?>" method="POST" enctype="multipart/form-data">
+            <form action="../Controllers/registroTarea.php?id=<?php echo $equipo['id'] ?>" method="POST" enctype="multipart/form-data">
                 <h2 >Nueva Tarea</h2>
                 <input class="form-cd" placeholder="Titulo" id="titutlotarea" name="titutlotarea">
                 <textarea class="form-cd" placeholder="Descripcion" id="descriptarea" name="descriptarea"></textarea>

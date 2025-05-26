@@ -1,4 +1,4 @@
-<?php
+<?php 
 require('../Controllers/conexion.php');
 include("../Controllers/equipoController.php");
 include("../Controllers/tareaController.php");
@@ -35,26 +35,28 @@ function obtenerIniciales($nombre) {
     }
     return $iniciales;
 }
-$idUsuario = $_SESSION['idusuario'];
+
 $tareacontrol = new TareaController($conexion);
-$tareasCompletadas = $tareacontrol->tareasPorUsuarioYGrupo($idUsuario, $idEquipo);
-$pendientes = $tareacontrol->tareasPendientes($idUsuario, $idEquipo);
-$vencidas = $tareacontrol->tareasVencidas($idUsuario, $idEquipo);
 
+$idUsuario = $_SESSION['idusuario'];
+$idtarea = $_GET['idt'] ?? null;
 
+$tareas = $tareacontrol->obtenerPorId($idtarea);
+$archivoBase = $tareacontrol->obtenerPorTarea($idtarea);
+
+$entregaHecha = $tareacontrol->entregaExistente($idUsuario, $idtarea);
 
 ?>
 
-
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workly</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styleTeam.css">
+    <link rel="stylesheet" href="css/styletareaT.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -88,6 +90,7 @@ $vencidas = $tareacontrol->tareasVencidas($idUsuario, $idEquipo);
         </ul>
         <div class="sidebar-footer">Sesión Iniciada: <br> <strong><i class="fas fa-user fa-fw"></i> <?=$_SESSION['username']  ?></strong>  <a href="Perfil.html"> <i class="fas fa-gear" ></i></a></div>
     </div>
+
     <div class="content">
         <div class="Chats">
             <!-- Sub-sidebar: Lista de Chats -->
@@ -99,11 +102,11 @@ $vencidas = $tareacontrol->tareasVencidas($idUsuario, $idEquipo);
     <span class="team-name"><?= htmlspecialchars($equipo['nombre']) ?></span>
     <i class="fas fa-ellipsis-v more-options"></i>
     </div>
-<ul class="menu">
+    <ul class="menu">
     <a href="teamT.php?id=<?= $equipo['id'] ?>"><li><i class="fas fa-tasks"></i> Tareas</li></a>
-</ul>
-<hr>
-<div class="channels">
+    </ul>
+    <hr>
+    <div class="channels">
     <span><i class="fa-solid fa-thumbtack"></i> Canales de texto</span>
     <ul>
         <a href="team.php?id=<?= $equipo['id'] ?>"><li><i class="fas fa-comments"></i> General</li></a>
@@ -113,69 +116,47 @@ $vencidas = $tareacontrol->tareasVencidas($idUsuario, $idEquipo);
     <ul>
         <a href="teamV.php?id=<?= $equipo['id'] ?>"><li> <i class="fa-solid fa-bullhorn"></i> General</li></a>
     </ul>
-</div>
-            </div>
-        </div>
-        <div class="Task">
-                 <!-- Segundo Navbar -->
-        <nav class="sub-navbar">
-            <h3 >Tareas</h3>
-            <div class="tabs">
-                <a href="../Views/creartarea.php?id=<?= $equipo['id'] ?>"> <button class="btn btn-primary" style="background-color: <?= htmlspecialchars($equipo['color']) ?>">
-                <i class="fas fa-plus"></i> Crear Tarea
-                </button></a>
-                 <button onclick="mostrarSeccion('pendientes')">Proximamente</button>
-                <button onclick="mostrarSeccion('completadas')">Completada</button>
-                <button onclick="mostrarSeccion('vencidas')">Vencida</button>
-            </div>
-        </nav>
-        <div class="task-container">
-
-
-            <div id="pendientes" class="seccion-tareas" >
-                <?php if (empty($pendientes)): ?>
-                <p>No hay tareas pendientes.</p>
-            <?php else: ?>
-            <?php foreach ($pendientes as $t): ?>
-                <div class="task">
-                <div class="task-title"> <a href="../Views/tareaT.php?id=<?= $equipo['id'] ?>&&idt=<?php echo $t['id'] ?>"><?= htmlspecialchars($t['titulo']) ?></a> </div>
-                <div class="task-info"><?= $t['fecha'] ?> - <?= $t['hora'] ?></div>
-                </div>
-            <?php endforeach; ?>
-            <?php endif; ?>
-            </div>
-
-            <div id="completadas" class="seccion-tareas" style="display: none;">
-                <?php if (empty($tareasCompletadas)): ?>
-                    <p>No tienes tareas pendientes sin entregar.</p>
-                <?php else: ?>
-                <?php foreach ($tareasCompletadas as $t): ?>
-            <div class="task">
-                <div class="task-title"><a href="../Views/tareaT.php?id=<?= $equipo['id'] ?>&&idt=<?php echo $t['id'] ?>"><?php echo $t['titulo'] ?></a>  </div>
-                <div class="task-info"><?php echo $t['fecha'] ?> - <?= htmlspecialchars($t['hora']) ?></div>
-            </div>
-            
-            <?php endforeach; ?>
-            <?php endif; ?>
-            </div>
-
-            <div id="vencidas" class="seccion-tareas" style="display: none;">
-                    <?php if (empty($vencidas)): ?>
-                <p>No tienes tareas vencidas sin entregar.</p>
-                <?php else: ?>
-                <?php foreach ($vencidas as $t): ?>
-                <div class="task">
-                <div class="task-title"><a href="../Views/tareaT.php?id=<?= $equipo['id'] ?>&&idt=<?php echo $t['id'] ?>"><?= htmlspecialchars($t['titulo']) ?></a></div>
-                <div class="task-info"><?= $t['fecha'] ?> - <?= $t['hora'] ?></div>
-                </div>
-                <?php endforeach; ?>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        </div>
     </div>
-    <script src="js/scriptsT.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+            </div>
+        </div>
+        <div class="tarea">
+                   <nav class="sub-navbar">
+            <a href="../Views/teamT.php?id=<?= $equipo['id']?>"><h5>Volver</h5></a>
+        </nav>
+        <div class="info">
+        <div class="conten">
+            <h1><?php echo $tareas['titulo'] ?></h1>
+            <p class="fe">Vence el <?php echo $tareas['fecha']?>, <?php echo $tareas['hora'] ?> </p>
+            <p class="peque" id="i">Intrucciones </p>
+            <p><?php echo $tareas['descripcion'] ?></p>
+
+            <?php if ($archivoBase): ?>
+            <p><a href="uploads/<?php echo $archivoBase['ruta'] ?>" target="_blank">Archivo base</a></p>
+            <?php endif; ?>
+
+            <p class="peque" id="t">Mi trabajo</p>
+
+            <?php
+            $expirada = (new DateTime($tareas['fecha'] . ' ' . $tareas['hora'])) < new DateTime();
+            if (!$expirada  && !$entregaHecha): ?>
+                <form action="../Controllers/comtarea.php?id=<?= $equipo['id']?>&&idt=<?php echo $tareas['id'] ?>" method="post" enctype="multipart/form-data">
+                    <label for="archivo" class="adj"><i class="fa fa-paperclip"></i></i>  Adjuntar</label>
+                    <input type="file" name="archivo" id="archivo" required>
+                    <p id="nombrea" class="arch"></p>
+
+                    <button type="submit">Entregar</button>
+                </form>
+            <?php elseif ($entregaHecha): ?>
+                <p style="color: green;">Ya has enviado tu archivo. ¡Gracias!</p>
+            <?php else: ?>
+                <p style="color: red;">La tarea ha expirado.</p>
+            S<?php endif; ?>
+
+        </div>
+        
+        </div>
+        </div>
+
+    </div>
 </body>
 </html>

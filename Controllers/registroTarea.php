@@ -27,4 +27,4 @@ if (!empty($_FILES['files']['name'][0])) {
 }
 var_dump($destino);
 
-//header("Location: ../Views/tareas.php");
+header("Location: ../Views/teamT.php?id=$grupo_id");

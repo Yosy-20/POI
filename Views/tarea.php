@@ -1,3 +1,24 @@
+<?php  
+include("../Controllers/tareaController.php");
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+  session_regenerate_id(true); // Protege contra fijación de sesión
+}
+
+$tareacontrol = new TareaController($conexion);
+
+$idUsuario = $_SESSION['idusuario'];
+$idtarea = $_GET['idt'] ?? null;
+
+$tareas = $tareacontrol->obtenerPorId($idtarea);
+$archivoBase = $tareacontrol->obtenerPorTarea($idtarea);
+
+$entregaHecha = $tareacontrol->entregaExistente($idUsuario, $idtarea);
+//var_dump($idtarea);
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -38,7 +59,7 @@
             <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fas fa-calendar"></i> Calendario</a></li>
             <li class="nav-item"><a class="nav-link" href="Reward.html"><i class="fas fa-gift"></i> Recompensas</a></li>
         </ul>
-        <div class="sidebar-footer">Sesión Iniciada: <br> <strong><i class="fas fa-user fa-fw"></i> Usuario</strong>  <a href="Perfil.php"> <i class="fas fa-gear" ></i></a></div>
+        <div class="sidebar-footer">Sesión Iniciada: <br> <strong> <i class="fas fa-user fa-fw"></i> <?=$_SESSION['username']  ?></strong>  <a href="Perfil.php"> <i class="fas fa-gear" ></i></a></div>
     </div>
     <div class="contenido">
         <nav class="sub-navbar">
@@ -46,18 +67,35 @@
         </nav>
         <div class="info">
         <div class="conten">
-            <h2>Análisis de aproximaciones de neuromarketing</h2>
-            <h4>Intrucciones</h4>
-            <p>Realiza un ensayo de una cuartilla</p>
+            <h1><?php echo $tareas['titulo'] ?></h1>
+            <p class="fe">Vence el <?php echo $tareas['fecha']?>, <?php echo $tareas['hora'] ?> </p>
+            <p class="peque" id="i">Intrucciones </p>
+            <p><?php echo $tareas['descripcion'] ?></p>
 
-            <input type="file" name="file" id="file">
-            <label for="file" class="adj"><i class="fa fa-paperclip"></i></i>  Adjuntar</label>
-            <p id="nombrea" class="arch"></p>
+            <?php if ($archivoBase): ?>
+            <p><a href="uploads/<?php echo $archivoBase['ruta'] ?>" target="_blank">Archivo base</a></p>
+            <?php endif; ?>
+
+            <p class="peque" id="t">Mi trabajo</p>
+
+            <?php
+            $expirada = (new DateTime($tareas['fecha'] . ' ' . $tareas['hora'])) < new DateTime();
+            if (!$expirada  && !$entregaHecha): ?>
+                <form action="../Controllers/comtarea.php?idt=<?php echo $tareas['id'] ?>" method="post" enctype="multipart/form-data">
+                    <label for="archivo" class="adj"><i class="fa fa-paperclip"></i></i>  Adjuntar</label>
+                    <input type="file" name="archivo" id="archivo" required>
+                    <p id="nombrea" class="arch"></p>
+
+                    <button type="submit">Entregar</button>
+                </form>
+            <?php elseif ($entregaHecha): ?>
+                <p style="color: green;">Ya has enviado tu archivo. ¡Gracias!</p>
+            <?php else: ?>
+                <p style="color: red;">La tarea ha expirado.</p>
+            S<?php endif; ?>
 
         </div>
-        <div class="punto">
-            <h4>Puntos</h4>
-        </div>
+        
         </div>
 
     </div>

@@ -1,3 +1,28 @@
+<?php
+require('../Controllers/conexion.php');
+include("../Controllers/recompensaController.php");
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+  session_regenerate_id(true); // Protege contra fijación de sesión
+}
+
+$idUsuario = $_SESSION['idusuario'];
+$reconController = new RecompensaController($conexion);
+$recompensas = $reconController->recompensasPorUsuario($idUsuario);
+
+function nombreNivel($nivel) {
+    switch ($nivel) {
+        case 1: return "buen comienzo";
+        case 2: return "sigue asi";
+        case 3: return "poquito mas";
+        case 4: return "rey de tareas";
+        case 5: return "GRANDE";
+        case 6: return "master de tareas";
+        default: return "DESCONOCIDO";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,10 +58,10 @@
 
     <div class="sidebar">
         <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-users"></i> Equipos</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.php"><i class="fas fa-users"></i> Equipos</a></li>
             <li class="nav-item"><a class="nav-link" href="task.html"><i class="fas fa-tasks"></i> Tareas</a></li>
             <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fas fa-calendar"></i> Calendario</a></li>
-            <li class="nav-item"><a class="nav-link" href="Reward.html"><i class="fas fa-gift"></i> Recompensas</a></li>
+            <li class="nav-item"><a class="nav-link" href="Reward.php"><i class="fas fa-gift"></i> Recompensas</a></li>
         </ul>
         <div class="sidebar-footer">Sesión Iniciada: <br> <strong><i class="fas fa-user fa-fw"></i> Usuario</strong>  <a href="Perfil.php"> <i class="fas fa-gear" ></i></a></div>
     </div>
@@ -48,36 +73,34 @@
 
         <div class="disponible">
            
-             <div class="reward">
-                <img src="img/b1.png" alt="Master">
-                <p>Master de tareas</p>
-                <label for="file">Tareas:</label>
-                <progress class="prog" id="file" value="1" max="5"> 20% </progress>
-               <!-- <input type="button" class="btn" value="Obtener">-->
-             </div>
-           
-           
+            <?php foreach ($recompensas['disponibles'] as $r): ?>
             <div class="reward">
-               <img src="img/b4.png" alt="Master">
-               <p>GRANDE</p>
-               <input type="button" class="btn" value="Obtener">
+            <img src="data:image/png;base64,<?= base64_encode($r['archivo']) ?>" alt="Recompensa">
+            <p><?= nombreNivel($r['nivel']) ?></p>
+        
+            <?php if ($r['desbloqueada']): ?>
+                <form action="../Controllers/obtrecompensa.php" method="post">
+                <input type="hidden" name="idusuario" value="<?= $idUsuario ?>">
+                <input type="hidden" name="idrecompensa" value="<?= $r['id'] ?>">
+                <button type="submit" class="btn">Obtener</button>
+                </form>
+            <?php else: ?>
+                <small style="color: gray;">No desbloqueada</small>
+            <?php endif; ?>
             </div>
+            <?php endforeach; ?>
           
         </div>
         <div class="division"></div>
         <h5>Reclamados</h5>
         <div class="reclamar">
             
-            <div class="rewardd">
-                <img src="img/b3.png" alt="Master">
-                <p>Sigue asi</p>
-                <input type="button" class="btn" value="Usar">
+            <?php foreach ($recompensas['obtenidas'] as $r): ?>
+            <div class="reward">
+            <img src="data:image/png;base64,<?= base64_encode($r['archivo']) ?>" alt="Recompensa">
+            <p><?= nombreNivel($r['nivel']) ?></p>
             </div>
-            <div class="rewardd">
-                <img src="img/b2.png" alt="Master">
-                <p>Buen comienzo</p>
-                <input type="button" class="btn" value="Usar">
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 

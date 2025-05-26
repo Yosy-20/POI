@@ -117,13 +117,13 @@ body {
 .reward .prog{
     width: 90%;
 }
-.reward input[type="button"]{
+.btn{
     border-radius: 10px;
     background-color: #0a9396;
     color: #f3f3f3;
     width: 90%;
 }
-.reward input[type="button"]:hover{
+.btn:hover{
     background-color: #076a6c;
 }
 .reclamar{

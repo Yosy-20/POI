@@ -291,62 +291,64 @@ a:hover{
 
 .sub-navbar h3 {
     margin: 0;
-    color: #d1d1d1;
+    color:#0a9496;
 }
-.task-container {
-    max-width: 1250px;
-    margin: auto;
-  
+.sub-navbar a{
+    text-decoration: none;
+    color:#0a9496;}
+
+.tarea{
+    color: #f8f9fa;
+    height: 541px;
+    width: 80%;
+    margin-left: 50px;
+
 }
-.tabs {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    color: #d1d1d1;
-}
-.tab {
-    padding: 10px 15px;
-    background-color: #21252954;
-    border-radius: 5px;
+.tarea input[type="file"]{
+    display: none;
+ }
+
+.tarea .adj {
+    color: #0a9496;
     cursor: pointer;
+    padding-bottom: 10px;
+    
 }
-.tab.active {
-    background-color: #d1d1d170;
+.tarea .adj:hover{
+    color: #1d5b5b;
 }
-.task {
-    background-color: #212529;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    margin-left: 15px;
+.tarea .arch{
+    padding: 5px;
+    
+    width: 80%;
 }
-.task:hover{
-    transform: scale(1.04);
+.punto{
+    width: 60%;
+    padding-left: 40px;
+    padding-right: 40px;
 }
-.task-title {
-    font-size: 18px;
-    font-weight: bold;
-    color:#0a9396;
+
+
+#t,#i{
+    font-size: 12px;
+    color: #919191;
 }
-.task-info {
+
+.fe{
     font-size: 14px;
-    color: #aaa;
-}
-.fa-gear{
-    margin-left: 110px;
-    color: #d1d1d172;
-}
-.fa-gear :hover{
-    color: #d1d1d1;
+    color: #afafaf;
 }
 
-.tabs button{
-    background-color: #d1d1d170;
-    border-radius: 5px;
-    color: #d1d1d1;
-
+button{
+    background-color:#1f6363;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    padding:7px;
+    color: white;
+    cursor: pointer;
+    width: 10%
 }
-
-.tabs button:hover{
-   background-color: #212529;
+button:hover{
+    background-color: #184b4b;
 }
