@@ -32,7 +32,7 @@ public function guardar($nombre, $descripcion, $codigo, $color, $usuarioCreador,
         $result->bind_result($userId);
 
         if ($result->fetch()) {
-            $integranteIds[] = $userId;  // Guardamos el ID para después
+            $integranteIds[] = $userId;
             $result->close();
 
             $estatusUsuario = 1;
@@ -49,7 +49,7 @@ public function guardar($nombre, $descripcion, $codigo, $color, $usuarioCreador,
         }
     }
 
-    // Crear el chat relacionado al equipo
+    // Crear chat grupal
     $fechaActual = date('Y-m-d H:i:s');
     $stmtChat = $this->conn->prepare("INSERT INTO chat (idequipo, fecha) VALUES (?, ?)");
     if (!$stmtChat) {
@@ -60,7 +60,7 @@ public function guardar($nombre, $descripcion, $codigo, $color, $usuarioCreador,
     $chatId = $stmtChat->insert_id;
     $stmtChat->close();
 
-    // Insertar a cada integrante en chatusuario
+    // Insertar integrantes en chatusuario
     foreach ($integranteIds as $userId) {
         $insertChatUser = $this->conn->prepare("INSERT INTO chatusuario (idChat, idUsuario) VALUES (?, ?)");
         if (!$insertChatUser) {
@@ -72,8 +72,43 @@ public function guardar($nombre, $descripcion, $codigo, $color, $usuarioCreador,
         $insertChatUser->close();
     }
 
+    // Crear chatprivado entre el creador y cada integrante si NO existe ya (en cualquier orden)
+    foreach ($integranteIds as $userId) {
+        if ($userId == $usuarioCreador) continue;
+
+        // Verificar si ya existe un chatprivado entre ellos (en cualquier dirección)
+        $checkStmt = $this->conn->prepare("
+            SELECT id_chat FROM chatprivado 
+            WHERE (id_usuario1 = ? AND id_usuario2 = ?) 
+               OR (id_usuario1 = ? AND id_usuario2 = ?)
+            LIMIT 1
+        ");
+        if (!$checkStmt) {
+            die("Error al preparar SELECT chatprivado: " . $this->conn->error);
+        }
+
+        $checkStmt->bind_param("iiii", $usuarioCreador, $userId, $userId, $usuarioCreador);
+        $checkStmt->execute();
+        $checkStmt->store_result();
+
+        if ($checkStmt->num_rows === 0) {
+            // Si no existe, lo creamos
+            $stmtPrivate = $this->conn->prepare("INSERT INTO chatprivado (id_usuario1, id_usuario2, fecha) VALUES (?, ?, ?)");
+            if (!$stmtPrivate) {
+                die("Error al preparar INSERT chatprivado: " . $this->conn->error);
+            }
+
+            $stmtPrivate->bind_param("iis", $usuarioCreador, $userId, $fechaActual);
+            $stmtPrivate->execute();
+            $stmtPrivate->close();
+        }
+
+        $checkStmt->close();
+    }
+
     header("Location: ../Views/index.php");
 }
+
 
 
      public function mostrarEquipos() {

@@ -105,6 +105,7 @@ function obtenerIniciales($nombre) {
         <li class="nav-item">
             <a class="nav-link" href="index.php"><i class="fas fa-users"></i> Equipos</a>
         </li>
+         <li class="nav-item"><a class="nav-link" href="chat.php"><i class="fas fa-comments"></i> Chats</a></li>
         <li class="nav-item">
             <a class="nav-link" href="task.html"><i class="fas fa-tasks"></i> Tareas</a>
         </li>
