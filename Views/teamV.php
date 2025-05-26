@@ -103,8 +103,9 @@ function obtenerIniciales($nombre) {
 <div class="sidebar">
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link" href="index.html"><i class="fas fa-users"></i> Equipos</a>
+            <a class="nav-link" href="index.php"><i class="fas fa-users"></i> Equipos</a>
         </li>
+         <li class="nav-item"><a class="nav-link" href="chat.php"><i class="fas fa-comments"></i> Chats</a></li>
         <li class="nav-item">
             <a class="nav-link" href="task.html"><i class="fas fa-tasks"></i> Tareas</a>
         </li>
@@ -150,25 +151,9 @@ function obtenerIniciales($nombre) {
         </div>
     </div>
     <div class="Llamada">
-        <div class="header">
-            📞 Nueva Reunión <span>00:41</span>
-        </div>
 
         <div class="call-container">
             <div id="jitsi-container"></div>
-        </div>
-
-        <div class="controls">
-            <a href="teamVL.html"><i class="fas fa-video"></i></a>
-            <i class="fas fa-microphone-slash"></i>
-            <i class="fas fa-comment-alt"></i>
-            <i class="fas fa-ellipsis-h"></i>
-            <i class="fas fa-phone end-call" title="Colgar llamada"></i>
-        </div>
-
-        <div class="top-icons">
-            <i class="fas fa-expand"></i>
-            <i class="fas fa-cog"></i>
         </div>
     </div>
 </div>
@@ -177,41 +162,42 @@ function obtenerIniciales($nombre) {
 <script src="https://meet.jit.si/external_api.js"></script>
 <script>
     const domain = "meet.jit.si";
-    const options = {
-        roomName: "WorklyTeam_<?= $equipo['id'] ?>",
-        width: "100%",
-        height: 500,
-        parentNode: document.querySelector("#jitsi-container"),
-        interfaceConfigOverwrite: {
-            TOOLBAR_BUTTONS: [
-                "microphone",
-                "camera",
-                "chat",
-                "desktop",
-                "fullscreen",
-                "hangup",
-                "settings",
-                "raisehand",
-                "videoquality",
-                "tileview",
-            ],
-        },
-    };
+   const options = {
+    roomName: "WorklyTeam_<?= $equipo['id'] ?>",
+    width: "100%",
+    height: 500,
+    parentNode: document.querySelector("#jitsi-container"),
+    userInfo: {
+        displayName: "<?= $_SESSION['username'] ?>"
+    },
+    interfaceConfigOverwrite: {
+        TOOLBAR_BUTTONS: [
+            "microphone",
+            "camera",
+            "chat",
+            "desktop",
+            "fullscreen",
+            "hangup",
+            "settings",
+            "raisehand",
+            "videoquality",
+            "tileview",
+        ],
+    },
+};
 
     const api = new JitsiMeetExternalAPI(domain, options);
 
     // Botón para colgar llamada (usa el icono con clase .end-call)
     document.querySelector(".end-call").addEventListener("click", () => {
         api.executeCommand("hangup");
-        // Puedes redirigir o hacer otra cosa tras colgar:
-        // window.location.href = 'team.php?id=<?= $equipo['id'] ?>';
+        window.location.href = 'team.php?id=<?= $equipo['id'] ?>';
     });
 
     // Evento cuando se está por cerrar la reunión
     api.addEventListener("readyToClose", () => {
         alert("La reunión ha finalizado");
-        // Puedes redirigir automáticamente si quieres:
-        // window.location.href = 'team.php?id=<?= $equipo['id'] ?>';
+        window.location.href = 'team.php?id=<?= $equipo['id'] ?>';
     });
 </script>
 </body>
