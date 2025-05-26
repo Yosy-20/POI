@@ -66,7 +66,7 @@ class UsuarioController {
                 $row['nombre'],
                 $row['apellidoP'],
                 $row['apellidoM'],
-                $row['foto']
+                $row['Foto']
             );
 
             // Guardar sesión
@@ -77,7 +77,7 @@ class UsuarioController {
             $_SESSION['nombre'] = $row['nombre'];
             $_SESSION['apellidoP'] = $row['apellidoP'];
             $_SESSION['apellidoM'] = $row['apellidoM'];
-            $_SESSION['foto'] = $row['foto'];
+            $_SESSION['foto'] = $row['Foto'];
 
             // Validar si faltan datos personales
             if (empty($row['nombre']) || empty($row['apellidoP']) || empty($row['apellidoM'])) {

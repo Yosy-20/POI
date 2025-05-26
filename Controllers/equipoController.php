@@ -1,6 +1,7 @@
 <?php
 include("conexion.php");
 include("../Models/equipo.php");
+include("../Models/chat.php");
 
 class equipoController{
     private $conn;
@@ -8,49 +9,71 @@ class equipoController{
     public function __construct($conexion) {
         $this->conn = $conexion;
     }
+public function guardar($nombre, $descripcion, $codigo, $color, $usuarioCreador, $usuarios) {
+    $status = 1;
+    $stmt = $this->conn->prepare("INSERT INTO equipo (nombre, descripcion, codigo, color, estatus, id_usuario) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssii", $nombre, $descripcion, $codigo, $color, $status, $usuarioCreador);
+    $stmt->execute();
+    $groupId = $stmt->insert_id;
+    $stmt->close();
 
-    public function guardar($nombre,$descripcion,$codigo,$color,$usuarioCreador,$usuarios){
-        $status=1;
-        $stmt = $this->conn->prepare("INSERT INTO equipo (nombre, descripcion, codigo, color, estatus, id_usuario) VALUES (?, ?, ?, ?,?, ?)");
-        $stmt->bind_param("ssssii", $nombre, $descripcion, $codigo, $color,$status, $usuarioCreador);
-        $stmt->execute();
-        $groupId = $stmt->insert_id;
-        $stmt->close(); 
-        var_dump($usuarios);
+    $integranteIds = [];
 
-       foreach ($usuarios as $nombreUsuario) {
-            $result = $this->conn->prepare("SELECT Id FROM usuario WHERE usuario = ?");
-            if (!$result) {
-                die("Error al preparar SELECT usuario: " . $this->conn->error);
-            }
-
-            $result->bind_param("s", $nombreUsuario);
-            $result->execute();
-
-            $userId = null;
-
-            $result->bind_result($userId);
-            var_dump($userId,$result);
-            if ($result->fetch()) {
-                $result->close();
-
-                $estatusUsuario = 1;
-                 $insert = $this->conn->prepare("INSERT INTO usuarioequipo (idequipo, idusuario, estatus) VALUES (?, ?, ?)");
-                if (!$insert) {
-                    die("Error al preparar INSERT equipo_usuario: " . $this->conn->error);
-                }
-
-                $insert->bind_param("iii", $groupId, $userId, $estatusUsuario);
-                $insert->execute();
-                $insert->close();
-            } else {
-                $result->close();
-                }
+    foreach ($usuarios as $nombreUsuario) {
+        $result = $this->conn->prepare("SELECT Id FROM usuario WHERE usuario = ?");
+        if (!$result) {
+            die("Error al preparar SELECT usuario: " . $this->conn->error);
         }
 
-        header("Location: ../Views/index.php");
+        $result->bind_param("s", $nombreUsuario);
+        $result->execute();
 
+        $userId = null;
+        $result->bind_result($userId);
+
+        if ($result->fetch()) {
+            $integranteIds[] = $userId;  // Guardamos el ID para después
+            $result->close();
+
+            $estatusUsuario = 1;
+            $insert = $this->conn->prepare("INSERT INTO usuarioequipo (idequipo, idusuario, estatus) VALUES (?, ?, ?)");
+            if (!$insert) {
+                die("Error al preparar INSERT equipo_usuario: " . $this->conn->error);
+            }
+
+            $insert->bind_param("iii", $groupId, $userId, $estatusUsuario);
+            $insert->execute();
+            $insert->close();
+        } else {
+            $result->close();
+        }
     }
+
+    // Crear el chat relacionado al equipo
+    $fechaActual = date('Y-m-d H:i:s');
+    $stmtChat = $this->conn->prepare("INSERT INTO chat (idequipo, fecha) VALUES (?, ?)");
+    if (!$stmtChat) {
+        die("Error al preparar INSERT chat: " . $this->conn->error);
+    }
+    $stmtChat->bind_param("is", $groupId, $fechaActual);
+    $stmtChat->execute();
+    $chatId = $stmtChat->insert_id;
+    $stmtChat->close();
+
+    // Insertar a cada integrante en chatusuario
+    foreach ($integranteIds as $userId) {
+        $insertChatUser = $this->conn->prepare("INSERT INTO chatusuario (idChat, idUsuario) VALUES (?, ?)");
+        if (!$insertChatUser) {
+            die("Error al preparar INSERT chatusuario: " . $this->conn->error);
+        }
+
+        $insertChatUser->bind_param("ii", $chatId, $userId);
+        $insertChatUser->execute();
+        $insertChatUser->close();
+    }
+
+    header("Location: ../Views/index.php");
+}
 
 
      public function mostrarEquipos() {
@@ -114,6 +137,22 @@ public function obtenerEquipoPorId($idEquipo) {
     $stmt->close();
 
     return $equipo;
+}
+
+public function obtenerIdChatPorEquipo($idEquipo) {
+    $idChat = null;  
+
+    $stmt = $this->conn->prepare("SELECT id FROM chat WHERE idequipo = ?");
+    $stmt->bind_param("i", $idEquipo);
+    $stmt->execute();
+    $stmt->bind_result($idChat);
+    if ($stmt->fetch()) {
+        $stmt->close();
+        return $idChat;
+    } else {
+        $stmt->close();
+        return null;
+    }
 }
 
 }
