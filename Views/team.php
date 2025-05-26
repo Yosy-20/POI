@@ -149,6 +149,7 @@ background-color:<?= htmlspecialchars($equipo['color']) ?>;
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import { getDatabase, ref, push, onChildAdded, get } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
@@ -199,6 +200,7 @@ get(messagesRef).then(snapshot => {
 });
 
 // Escuchar nuevos mensajes
+// Escuchar nuevos mensajes (con descifrado de texto)
 onChildAdded(messagesRef, (data) => {
     const msg = data.val();
     const isCurrentUser = msg.name === currentUser;
@@ -213,7 +215,19 @@ onChildAdded(messagesRef, (data) => {
     let content = `<strong>${msg.name}</strong><br>`;
 
     if (msg.text && msg.text.trim() !== "") {
-        content += `<p>${msg.text}</p>`;
+        let decryptedText = "";
+        if (msg.text !== "(Archivo adjunto)") {
+            try {
+                const bytes = CryptoJS.AES.decrypt(msg.text, secretKey);
+                decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+            } catch (e) {
+                console.error("Error al descifrar mensaje:", e);
+                decryptedText = "(Mensaje ilegible)";
+            }
+        } else {
+            decryptedText = msg.text;
+        }
+        content += `<p>${decryptedText}</p>`;
     }
 
     if (msg.fileURL) {
@@ -233,7 +247,6 @@ onChildAdded(messagesRef, (data) => {
     chatBody.appendChild(div);
     chatBody.scrollTop = chatBody.scrollHeight;
 });
-
 // Clic en ícono de archivo
 fileIcon.addEventListener("click", () => {
     fileInput.click();
@@ -276,6 +289,10 @@ fileInput.addEventListener("change", (e) => {
 });
 
 // Enviar mensaje
+//  Clave secreta para cifrado AES
+const secretKey = "worklySecret123";
+
+// Enviar mensaje (con cifrado de texto)
 button.addEventListener("click", async () => {
     const text = input.value.trim();
     if (text === "" && !selectedFile) return;
@@ -309,9 +326,9 @@ button.addEventListener("click", async () => {
             fileURL = publicUrlData.publicUrl;
             fileName = selectedFile.name;
 
-            console.log(" Archivo subido a Supabase:", fileURL);
+            console.log("Archivo subido a Supabase:", fileURL);
         } catch (err) {
-            console.error(" Error al subir archivo a Supabase:", err);
+            console.error("Error al subir archivo a Supabase:", err);
             alert("Hubo un error al subir el archivo.");
             button.disabled = false;
             button.innerHTML = originalButtonHTML;
@@ -320,15 +337,20 @@ button.addEventListener("click", async () => {
     }
 
     try {
+        // 🔒 Cifrar texto si existe
+        const encryptedText = text
+            ? CryptoJS.AES.encrypt(text, secretKey).toString()
+            : (fileURL ? "(Archivo adjunto)" : "");
+
         await push(messagesRef, {
             name: currentUser,
-            text: text || (fileURL ? "(Archivo adjunto)" : ""),
+            text: encryptedText,
             fileURL: fileURL,
             fileName: fileName,
             photoURL: userPhoto,
             timestamp: Date.now()
         });
-        console.log(" Mensaje guardado en Realtime Database");
+        console.log("Mensaje guardado en Realtime Database");
     } catch (error) {
         console.error("Error al guardar mensaje en DB:", error);
         alert("Hubo un error al guardar el mensaje.");
