@@ -16,15 +16,12 @@ session_start();
             die("La tarea ha expirado.");
         }
 
-        if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
-            $nombre = basename($_FILES['archivo']['name']);
-            $rutaFinal = '/uploads/' . uniqid() . "_" . $nombre;
+        $data = json_decode(file_get_contents("php://input"), true);
+        $rutaFinal = $data['url'];
 
 
             
             $tarean = $tareacontrol->guardar($rutaFinal, $idusuario, $idtarea);
            header("Location: ../Views/tareaT.php?id=$ideq&&idt=$idtarea");
-        } else {
-            echo "Error al subir el archivo.";
-        }
+       
     

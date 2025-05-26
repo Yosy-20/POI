@@ -41,7 +41,7 @@ class TareaController{
         $stmt->bind_param("i", $idtarea);  // <-- AQUI ES CLAVE
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function guardar($ruta, $idusuario, $idtarea) {
@@ -53,11 +53,11 @@ class TareaController{
     }
 
     public function entregaExistente($idusuario, $idtarea) {
-    $stmt = $this->conn->prepare("SELECT id FROM tareascompletadas WHERE idusuario = ? AND idtarea = ?");
+    $stmt = $this->conn->prepare("SELECT * FROM tareascompletadas WHERE idusuario = ? AND idtarea = ?");
     $stmt->bind_param("ii", $idusuario, $idtarea);
     $stmt->execute();
     $result = $stmt->get_result();
-    return $result->num_rows > 0;
+    return $result->fetch_assoc();
     }
 
     public  function tareasPorUsuarioYGrupo($idusuario, $idequipo) {
