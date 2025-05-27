@@ -58,12 +58,12 @@ class RecompensaController{
 
 private function nivelDesbloqueado($nivel, $tareas) {
     switch ($nivel) {
-        case 1: return $tareas >= 5;
-        case 2: return $tareas >= 10;
-        case 3: return $tareas >= 25;
-        case 4: return $tareas >= 45;
-        case 5: return $tareas >= 70;
-        case 6: return $tareas >= 100;
+        case 1: return $tareas >= 1;
+        case 2: return $tareas >= 3;
+        case 3: return $tareas >= 5;
+        case 4: return $tareas >= 7;
+        case 5: return $tareas >= 10;
+        case 6: return $tareas >= 15;
         default: return false;
     }
 }
