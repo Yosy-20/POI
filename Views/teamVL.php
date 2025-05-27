@@ -35,7 +35,6 @@
         <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-users"></i> Equipos</a></li>
             <li class="nav-item"><a class="nav-link" href="chat.php"><i class="fas fa-comments"></i> Chats</a></li>
-            <li class="nav-item"><a class="nav-link" href="task.html"><i class="fas fa-tasks"></i> Tareas</a></li>
             <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fas fa-calendar"></i> Calendario</a></li>
             <li class="nav-item"><a class="nav-link" href="Reward.php"><i class="fas fa-gift"></i> Recompensas</a></li>
         </ul>

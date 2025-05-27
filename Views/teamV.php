@@ -107,15 +107,8 @@ function obtenerIniciales($nombre) {
         </li>
         <li class="nav-item"><a class="nav-link" href="chat.php"><i class="fas fa-comments"></i> Chats</a></li>
          <li class="nav-item"><a class="nav-link" href="chat.php"><i class="fas fa-comments"></i> Chats</a></li>
-        <li class="nav-item">
-            <a class="nav-link" href="task.html"><i class="fas fa-tasks"></i> Tareas</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="calendar.html"><i class="fas fa-calendar"></i> Calendario</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="Reward.php"><i class="fas fa-gift"></i> Recompensas</a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fas fa-calendar"></i> Calendario</a></li>
+        <li class="nav-item"><a class="nav-link" href="Reward.php"><i class="fas fa-gift"></i> Recompensas</a></li>
     </ul>
     <div class="sidebar-footer">
         Sesión Iniciada: <br />
