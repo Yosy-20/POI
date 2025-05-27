@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             die("Error al subir la foto.");
         }
     } else {
-        $fotoDestino = "/uploads/default.jpg";  // Foto por defecto si no se sube ninguna
+        $fotoDestino = "../uploads/default.jpg";  // Foto por defecto si no se sube ninguna
     }
 
     // Crear controlador y registrar usuario

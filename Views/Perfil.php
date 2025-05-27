@@ -17,6 +17,7 @@ include("../Controllers/recompensaController.php");
 
 // Obtener el ID del usuario desde la sesión
 $id_usuario = $_SESSION['idusuario'];
+ $fotoDestino = $_SESSION['foto'];
 
 // Llamar a la función para obtener los datos del usuario
 $usuario = obtenerPerfilUsuario($conexion, $id_usuario);
@@ -111,7 +112,7 @@ if ($usuario) {
                         <?php if ($marco): ?>
                         <img src="data:image/png;base64,<?= base64_encode($marco['archivo']) ?>" class="marco-img" id="imgr">
                         <?php endif; ?>
-                        <img src="http://localhost/POI/<?= htmlspecialchars($usuario['Foto']) ?>" alt="Avatar de Usuario" class="avatar-principal">
+                        <img src="<?=$fotoDestino ?>" alt="Avatar de Usuario" class="avatar-principal">
                         </div>
                         <button type="button" class="boton-avatar">
                             <i class="far fa-image"></i>
