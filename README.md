@@ -25,10 +25,14 @@ Gestion de tareas por Grupo y Manejo de Recompensas
 
 Pantallas de mi Aplicacion Web
 
-![Pantallas de mi aplicacion](Capturas/Login.png)
-![Pantallas de mi aplicacion](Capturas/Register.png)
-![Pantallas de mi aplicacion](Capturas/Information.png)
+![Pantallas de mi aplicacion](Capturas/login.png)
+![Pantallas de mi aplicacion](Capturas/Registro.png)
+![Pantallas de mi aplicacion](Capturas/Informacion.png)
 ![Pantallas de mi aplicacion](Capturas/Inicio.png)
+![Pantallas de mi aplicacion](Capturas/Calendario.png)
+![Pantallas de mi aplicacion](Capturas/ChatPrivado.png)
+![Pantallas de mi aplicacion](Capturas/Equipo.png)
+![Pantallas de mi aplicacion](Capturas/Llamada.png)
 
 ### Tecnologias
 Este proyecto fue realizado con:
