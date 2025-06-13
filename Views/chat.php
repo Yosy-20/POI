@@ -119,7 +119,7 @@ $fotoDestino = $_SESSION['foto'];
           data.forEach(chat => {
             const item = document.createElement('div');
             item.className = 'chat-item';
-            item.innerHTML = `<img src="http://localhost/POI${chat.foto}" alt="Usuario"> ${chat.nombre}`;
+            item.innerHTML = `<img src="${chat.foto}" alt="Usuario"> ${chat.nombre}`;
             item.onclick = () => {
               document.getElementById('nombreChat').textContent = chat.nombre;
               sessionStorage.setItem("selectedUser", chat.nombre);
