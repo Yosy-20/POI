@@ -17,7 +17,7 @@ Aplicacion web que consume servicios web para transferir información entre la a
 ### Objetivos
 
 El sistema tiene como objetivo principal la comunicación, enviar y recibir información en tiempo real a través de internet.
-Cuenta con las herramientas necesarias para lacomunicación, como el uso de chats en tiempo real, subida y descarga de archivos, chats privados y creación de chats grupales de mínimo tres integrantes.
+Cuenta con las herramientas necesarias para la comunicación, como el uso de chats en tiempo real, subida y descarga de archivos, chats privados y creación de chats grupales de mínimo tres integrantes.
 Gestion de tareas por Grupo y Manejo de Recompensas 
 
 
