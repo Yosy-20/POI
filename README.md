@@ -34,6 +34,7 @@ Pantallas de mi Aplicacion Web
 ![Pantallas de mi aplicacion](Capturas/CrearEquipo.png)
 ![Pantallas de mi aplicacion](Capturas/Equipo.png)
 ![Pantallas de mi aplicacion](Capturas/Llamada.png)
+![Pantallas de mi aplicacion](Capturas/Videollamada.png)
 ![Pantallas de mi aplicacion](Capturas/Tareas.png)
 ![Pantallas de mi aplicacion](Capturas/CrearTarea.png)
 ![Pantallas de mi aplicacion](Capturas/Recompensas.png)
