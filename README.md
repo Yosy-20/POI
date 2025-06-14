@@ -31,8 +31,12 @@ Pantallas de mi Aplicacion Web
 ![Pantallas de mi aplicacion](Capturas/Inicio.png)
 ![Pantallas de mi aplicacion](Capturas/Calendario.png)
 ![Pantallas de mi aplicacion](Capturas/ChatPrivado.png)
+![Pantallas de mi aplicacion](Capturas/CrearEquipos.png)
 ![Pantallas de mi aplicacion](Capturas/Equipo.png)
 ![Pantallas de mi aplicacion](Capturas/Llamada.png)
+![Pantallas de mi aplicacion](Capturas/Tareas.png)
+![Pantallas de mi aplicacion](Capturas/CrearTareas.png)
+![Pantallas de mi aplicacion](Capturas/Recompensas.png)
 
 ### Tecnologias
 Este proyecto fue realizado con:
